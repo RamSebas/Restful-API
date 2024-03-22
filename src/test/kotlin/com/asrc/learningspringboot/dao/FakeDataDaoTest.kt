@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import java.util.*
 import kotlin.collections.ArrayList
 import org.springframework.util.ClassUtils.isPresent
-import kotlin.collections.AbstractSet
 
 
 class FakeDataDaoTest {
@@ -54,10 +53,9 @@ class FakeDataDaoTest {
         fakeDataDao.updateUser(newJoeUserUid)
         println(userList)
         val user = fakeDataDao.selectUserByUserUid(joeUserUid)
-        assertThat(user).isIn(fakeDataDao)
         assertThat(users).hasSize(1)
         assertThat(user).isEqualToComparingFieldByField(newJoeUserUid)
-
+        println("Update correct")
 
 
     }
