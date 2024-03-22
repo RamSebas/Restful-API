@@ -1,12 +1,12 @@
-package com.asrc.learningspringboot.DAO
+package com.asrc.learningspringboot.dao
 
-import com.asrc.learningspringboot.Model.User
+import com.asrc.learningspringboot.model.User
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 interface UserDao {
-    fun selectAllUsers(): ArrayList<MutableCollection<User>>
+    fun selectAllUsers(): MutableCollection<User>
     fun selectUserByUserUid(userUid: UUID): User?
     fun updateUser(user: User): Int
     fun deleteUserByUserUid(userUid: UUID): Int

@@ -1,7 +1,7 @@
 package com.asrc.learningspringboot.service
 
-import com.asrc.learningspringboot.DAO.UserDao
-import com.asrc.learningspringboot.Model.User
+import com.asrc.learningspringboot.dao.UserDao
+import com.asrc.learningspringboot.model.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -17,7 +17,7 @@ class UserService {
         this.userDao = userDao
     }
 
-    fun getAllUsers(): ArrayList<MutableCollection<User>>? {
+    fun getAllUsers(): MutableCollection<User> {
         return userDao.selectAllUsers()
     }
 

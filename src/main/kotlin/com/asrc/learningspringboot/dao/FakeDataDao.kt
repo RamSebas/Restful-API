@@ -1,9 +1,7 @@
-package com.asrc.learningspringboot.DAO
-import com.asrc.learningspringboot.Model.User
+package com.asrc.learningspringboot.dao
+import com.asrc.learningspringboot.model.User
 import org.springframework.stereotype.Repository
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 @Repository
@@ -16,8 +14,8 @@ class FakeDataDao: UserDao{
         database[joeUserUid] = User(joeUserUid, "Joe", "Jones", User.Gender.MALE, 22, "joejones@gmail.com")
     }
 
-    override fun selectAllUsers(): ArrayList<MutableCollection<User>> {
-        return arrayListOf(database.values)
+    override fun selectAllUsers(): MutableCollection<User> {
+        return database.values
     }
 
     override fun selectUserByUserUid(userUid: UUID): User? {

@@ -1,9 +1,9 @@
-package com.asrc.learningspringboot.Model
+package com.asrc.learningspringboot.model
 
 import java.util.UUID
 
 class User (
-    private val userUid: UUID = TODO(),
+    private val userUid: UUID,
     private val firstName: String = "",
     private val lastName: String,
     private val gender: Gender,
@@ -23,8 +23,8 @@ class User (
         return lastName
     }
 
-    fun getGender(): Gender {
-        return gender
+    fun getGender(): String {
+        return gender.toString()
     }
 
     fun getAge(): Int {
