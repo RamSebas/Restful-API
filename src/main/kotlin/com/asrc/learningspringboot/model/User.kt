@@ -1,16 +1,34 @@
 package com.asrc.learningspringboot.model
 
-import java.util.UUID
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.*
+
 
 class User (
-    private val userUid: UUID,
-    private val firstName: String = "",
-    private val lastName: String,
-    private val gender: Gender,
-    private val age: Int,
-    private val email: String,
+    private var userUid: UUID,
+    private var firstName: String = "",
+    private var lastName: String,
+    private var gender: Gender,
+    private var age: Int,
+    private var email: String,
+    ) {
 
-) {
+    fun User(
+        userUid: UUID?,
+        firstName: String?,
+        lastName: String?,
+        gender: Gender?,
+        age: Int?,
+        email: String?,
+    ) {
+        this.userUid = userUid!!
+        this.firstName = firstName!!
+        this.lastName = lastName!!
+        this.gender = gender!!
+        this.age = age!!
+        this.email = email!!
+    }
+
     fun getUserUid(): UUID {
         return userUid
     }

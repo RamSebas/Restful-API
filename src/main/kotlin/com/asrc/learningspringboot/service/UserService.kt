@@ -1,5 +1,6 @@
 package com.asrc.learningspringboot.service
 
+import com.asrc.learningspringboot.dao.FakeDataDao
 import com.asrc.learningspringboot.dao.UserDao
 import com.asrc.learningspringboot.model.User
 import org.springframework.beans.factory.annotation.Autowired
@@ -8,7 +9,7 @@ import java.util.*
 
 
 @Service
-class UserService {
+class UserService(fakeDataDao: FakeDataDao) {
 
     lateinit var userDao: UserDao
     @Autowired
