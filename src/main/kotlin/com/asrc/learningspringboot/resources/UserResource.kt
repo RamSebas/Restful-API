@@ -22,7 +22,7 @@ class UserResource {
 
 
     @Autowired
-    fun UserResource(userService: UserService) {
+    fun userResource(userService: UserService) {
         this.userService = userService
     }
 
@@ -43,14 +43,22 @@ class UserResource {
     @RequestMapping(method = [RequestMethod.POST], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun insertNewUser(@RequestBody user: User): ResponseEntity<Int>{
         val result = userService.insertUser(user)
-        if (result ==1 ){
-            return ResponseEntity.ok().build()
-        }
-        return ResponseEntity.badRequest().build()
+        return intResponseEntity(result)
+    }
+    @RequestMapping(method = [RequestMethod.DELETE], path = ["{userUid}"])
+    fun deleteUsers(@PathVariable("userUid") userUid: UUID): ResponseEntity<Int> {
+        var result = userService.removeUser(userUid)
+        return intResponseEntity(result)
+    }
+
+    @RequestMapping(method = [RequestMethod.PUT], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun updateUser(@RequestBody user: User): ResponseEntity<Int> {
+        var result = userService.updateUser(user)
+        return intResponseEntity(result)
     }
 
     class ErrorMessage(private var errorMessage: String) {
-        fun ErrorMessage(errorMessage: String){
+        fun errorMessage(errorMessage: String){
             this.errorMessage = errorMessage
         }
         fun getMessage(): String {
@@ -60,5 +68,12 @@ class UserResource {
             this.errorMessage = errorMessage
         }
     }
+}
+
+private fun intResponseEntity(result: Int): ResponseEntity<Int> {
+    if (result == 1) {
+        return ResponseEntity.ok().build()
+    }
+    return ResponseEntity.badRequest().build()
 }
 
