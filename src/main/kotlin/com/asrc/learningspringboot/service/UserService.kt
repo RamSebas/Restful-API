@@ -3,6 +3,7 @@ package com.asrc.learningspringboot.service
 import com.asrc.learningspringboot.dao.FakeDataDao
 import com.asrc.learningspringboot.dao.UserDao
 import com.asrc.learningspringboot.model.User
+import com.asrc.learningspringboot.model.User.Gender
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -17,9 +18,19 @@ class UserService(fakeDataDao: FakeDataDao) {
         this.userDao = userDao
     }
 
-    fun getAllUsers(): MutableCollection<User> {
-        return userDao.selectAllUsers()
+    fun getAllUsers(gender: String?): Collection<User> {
+        val users = userDao.selectAllUsers()
+        if (gender == null) {
+            return users
+        }
+        return try {
+            val theGender = Gender.valueOf(gender.toUpperCase())
+            users.filter { it.gender == theGender }
+        } catch (e: Exception) {
+            throw IllegalStateException("Invalid gender", e)
+        }
     }
+
 
     fun getUser(userUid: UUID): User? {
         return userDao.selectUserByUserUid(userUid)

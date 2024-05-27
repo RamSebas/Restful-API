@@ -8,7 +8,7 @@ class User (
     private var userUid: UUID,
     private var firstName: String = "",
     private var lastName: String,
-    private var gender: Gender,
+    var gender: Gender,
     private var age: Int,
     private var email: String,
     ) {
