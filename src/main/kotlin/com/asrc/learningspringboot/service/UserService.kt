@@ -7,6 +7,9 @@ import com.asrc.learningspringboot.model.User.Gender
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
+import java.util.stream.Collectors
+
+
 
 
 @Service
@@ -14,7 +17,7 @@ class UserService(fakeDataDao: FakeDataDao) {
 
     lateinit var userDao: UserDao
     @Autowired
-    fun UserService(userDao: UserDao) {
+    fun userService(userDao: UserDao) {
         this.userDao = userDao
     }
 
@@ -23,9 +26,11 @@ class UserService(fakeDataDao: FakeDataDao) {
         if (gender == null) {
             return users
         }
-        return try {
-            val theGender = Gender.valueOf(gender.toUpperCase())
-            users.filter { it.gender == theGender }
+            try {
+            val theGender: Gender = Gender.valueOf(gender.toUpperCase())
+                return users.stream()
+                    .filter { user: User -> user.getGender() == theGender }
+                    .collect(Collectors.toList())
         } catch (e: Exception) {
             throw IllegalStateException("Invalid gender", e)
         }

@@ -8,7 +8,7 @@ class User (
     private var userUid: UUID,
     private var firstName: String = "",
     private var lastName: String,
-    var gender: Gender,
+    private var gender: Gender,
     private var age: Int,
     private var email: String,
     ) {
@@ -41,8 +41,8 @@ class User (
         return lastName
     }
 
-    fun getGender(): String {
-        return gender.toString()
+    fun getGender(): Gender {
+        return gender
     }
 
     fun getAge(): Int {
