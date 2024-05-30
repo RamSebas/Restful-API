@@ -14,12 +14,12 @@ class User (
     ) {
 
     fun User(
-        userUid: UUID?,
-        firstName: String?,
-        lastName: String?,
-        gender: Gender?,
-        age: Int?,
-        email: String?,
+        @JsonProperty("userUid") userUid: UUID?,
+        @JsonProperty("firstName") firstName: String?,
+        @JsonProperty("lastName") lastName: String?,
+        @JsonProperty("gender") gender: Gender?,
+        @JsonProperty("age") age: Int?,
+        @JsonProperty("email") email: String?,
     ) {
         this.userUid = userUid!!
         this.firstName = firstName!!
@@ -52,6 +52,14 @@ class User (
     fun getEmail(): String {
         return email
     }
+
+    fun newUser(userUid: UUID?, user: User): User {
+        return com.asrc.learningspringboot.model.User(
+            userUid!!, user.getFirstName(), user.getLastName(), user.gender,
+            user.getAge(), user.getEmail()
+        )
+    }
+
     override fun toString(): String {
         return "User(userUid=$userUid, firstName='$firstName', lastName='$lastName', gender=$gender, age=$age, email='$email')"
     }
