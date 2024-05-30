@@ -23,8 +23,12 @@ class FakeDataDao: UserDao{
     }
 
     override fun updateUser(user: User): Int {
-        database[user.getUserUid()] = user
-        return 1
+        val userUid = user.getUserUid()
+        if (userUid != null) {
+            database[userUid] = user
+            return 1
+        }
+        return 0 // Indicar que no se pudo actualizar debido a la falta de userUid
     }
 
     override fun deleteUserByUserUid(userUid: UUID): Int {

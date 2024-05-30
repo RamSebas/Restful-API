@@ -42,7 +42,7 @@ class UserService(fakeDataDao: FakeDataDao) {
     }
 
     fun updateUser(user: User): Int {
-        val currentUser = getUser(user.getUserUid())
+        val currentUser = user.getUserUid()?.let { getUser(it) }
         if (currentUser != null) {
             userDao.updateUser(user)
             return 1
@@ -58,7 +58,7 @@ class UserService(fakeDataDao: FakeDataDao) {
     }
 
     fun insertUser(user: User): Int {
-        val userUid: UUID = UUID.randomUUID()
+        val userUid = user.getUserUid() ?: UUID.randomUUID()
         return userDao.insertUser(userUid, user.newUser(userUid, user))
     }
 

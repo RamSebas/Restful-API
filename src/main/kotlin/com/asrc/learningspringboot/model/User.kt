@@ -4,32 +4,32 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
 
 
-class User (
-    private var userUid: UUID,
-    private var firstName: String = "",
-    private var lastName: String,
-    private var gender: Gender,
-    private var age: Int,
-    private var email: String,
-    ) {
-
-    fun User(
+data class User(
+    @JsonProperty("userUid") private var userUid: UUID? = null,
+    @JsonProperty("firstName") private var firstName: String = "",
+    @JsonProperty("lastName") private var lastName: String,
+    @JsonProperty("gender") private var gender: Gender,
+    @JsonProperty("age") private var age: Int,
+    @JsonProperty("email") private var email: String,
+) {
+    // Constructor for JSON deserialization
+    constructor(
         @JsonProperty("userUid") userUid: UUID?,
         @JsonProperty("firstName") firstName: String?,
         @JsonProperty("lastName") lastName: String?,
         @JsonProperty("gender") gender: Gender?,
         @JsonProperty("age") age: Int?,
         @JsonProperty("email") email: String?,
-    ) {
-        this.userUid = userUid!!
-        this.firstName = firstName!!
-        this.lastName = lastName!!
-        this.gender = gender!!
-        this.age = age!!
-        this.email = email!!
-    }
+    ) : this(
+        userUid,
+        firstName ?: "",
+        lastName ?: throw IllegalArgumentException("lastName cannot be null"),
+        gender ?: throw IllegalArgumentException("gender cannot be null"),
+        age ?: throw IllegalArgumentException("age cannot be null"),
+        email ?: throw IllegalArgumentException("email cannot be null")
+    )
 
-    fun getUserUid(): UUID {
+    fun getUserUid(): UUID? {
         return userUid
     }
 
@@ -53,10 +53,14 @@ class User (
         return email
     }
 
-    fun newUser(userUid: UUID?, user: User): User {
-        return com.asrc.learningspringboot.model.User(
-            userUid!!, user.getFirstName(), user.getLastName(), user.gender,
-            user.getAge(), user.getEmail()
+    fun newUser(userUid: UUID, user: User): User {
+        return User(
+            userUid,
+            user.getFirstName(),
+            user.getLastName(),
+            user.getGender(),
+            user.getAge(),
+            user.getEmail()
         )
     }
 
