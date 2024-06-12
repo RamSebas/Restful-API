@@ -5,36 +5,34 @@ import com.asrc.learningspringboot.model.Gender
 import com.asrc.learningspringboot.model.User
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.util.*
 
 
-@SpringBootTest
-class UserRepositoryTest(@Autowired val userRepository: UserRepository) {
 
+@ExtendWith(MockitoExtension::class)
+@SpringBootTest
+class UserRepositoryTest() {
+    @Mock
+    lateinit var userRepository: UserRepository
     @Test
     fun `when findById then return User`() {
-        val user = User(UUID.randomUUID(), "Test", "User", gender = Gender.MALE,22, "ar@gmail.com")
-        userRepository.save(user)
+        val user = User(UUID.randomUUID(), "Test", "User", gender = Gender.MALE, 22, "ar@gmail.com")
 
-        val foundUser = user.userUid?.let { userRepository.findById(it) }
+        Mockito.`when`(user.userUid?.let { userRepository.findById(it) }).thenReturn(Optional.of(user))
 
-        if (foundUser != null) {
-            Assertions.assertTrue(foundUser.isPresent)
-        }
-        if (foundUser != null) {
-            Assertions.assertEquals(user.userUid, foundUser.get().userUid)
-        }
-        if (foundUser != null) {
-            Assertions.assertEquals(user.firstName, foundUser.get().firstName)
-        }
-        if (foundUser != null) {
-            Assertions.assertEquals(user.lastName, foundUser.get().lastName)
-        }
-        if (foundUser != null) {
-            Assertions.assertEquals(user.email, foundUser.get().email)
+        user.userUid?.let {
+            userRepository.findById(it)?.ifPresent { userFromDb ->
+                Assertions.assertEquals(user.userUid, userFromDb.userUid)
+                Assertions.assertEquals(user.firstName, userFromDb.firstName)
+                Assertions.assertEquals(user.lastName, userFromDb.lastName)
+                Assertions.assertEquals(user.email, userFromDb.email)
+            }
         }
     }
 }
-

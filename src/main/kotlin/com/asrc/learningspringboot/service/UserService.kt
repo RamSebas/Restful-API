@@ -12,13 +12,13 @@ import java.util.stream.Collectors
 
 
 @Service
-class UserService(userRepository: UserRepository) {
+class UserService(@Autowired private val userRepository: UserRepository) {
 
-    lateinit var userRepository: UserRepository
-    @Autowired
-    fun userService(userRepository: UserRepository) {
-        this.userRepository = userRepository
-    }
+//    lateinit var userRepository: UserRepository
+//    @Autowired
+//    fun userService(userRepository: UserRepository) {
+//        this.userRepository = userRepository
+//    }
 
     fun getAllUsers(gender: String?): Collection<User> {
         val users = userRepository.findAll()

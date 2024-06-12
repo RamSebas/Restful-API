@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
+import org.mockito.junit.jupiter.MockitoExtension
 import java.util.*
 import kotlin.collections.ArrayList
 
-
+@ExtendWith(MockitoExtension::class)
 class UserServiceTest {
 
     @Mock
@@ -22,7 +24,6 @@ class UserServiceTest {
 
     @BeforeEach
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
         userService = UserService(userRepository)
     }
 
@@ -46,9 +47,23 @@ class UserServiceTest {
         println("Prueba exitosa")
     }
 
+    @Test
+    fun `getUser returns the correct user`() {
+        val userUid = UUID.randomUUID()
+        val user = User(userUid, "Test", "User", gender = Gender.MALE, 22, "test.user@example.com")
+        val userList = mutableListOf<User>()
+        userList.add(user)
+        given(userRepository.findById(userUid)).willReturn(Optional.of(user))
 
-        @Test
-    fun getUser() {
+        val returnedUser = userService.getUser(userUid)
+
+        assertThat(returnedUser).isNotNull
+        assertThat(returnedUser?.userUid).isEqualTo(user.userUid)
+        assertThat(returnedUser?.firstName).isEqualTo(user.firstName)
+        assertThat(returnedUser?.lastName).isEqualTo(user.lastName)
+        assertThat(returnedUser?.gender).isEqualTo(user.gender)
+        assertThat(returnedUser?.age).isEqualTo(user.age)
+        assertThat(returnedUser?.email).isEqualTo(user.email)
     }
 
     @Test
