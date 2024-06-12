@@ -28,10 +28,10 @@ class UserResource @Autowired constructor(private val userService: UserService){
     }
 
     @RequestMapping(method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE], path = ["{userUid}"])
-    fun fetchUser (@PathVariable("userUid") userUid: UUID): ResponseEntity<*>{
+    fun fetchUser (@PathVariable("userUid") userUid: UUID): Any? {
         var userOptional: User? = userService.getUser(userUid)
         if (userOptional != null) {
-                return ResponseEntity.ok(userOptional.userUid)
+                return userService.getUser(userUid)
                     }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorMessage("User $userUid was not found"))
     }
