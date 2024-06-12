@@ -52,7 +52,7 @@ class FakeDataDaoTest {
         val newJoeUserUid = User(joeUserUid, "Anna", "Montana", User.Gender.FEMALE, 30, "annamontana@gmail.com")
         fakeDataDao.updateUser(newJoeUserUid)
         println(userList)
-        val user = fakeDataDao.selectUserByUserUid(joeUserUid)
+        val user = joeUserUid?.let { fakeDataDao.selectUserByUserUid(it) }
         assertThat(users).hasSize(1)
         assertThat(user).isEqualToComparingFieldByField(newJoeUserUid)
         println("Update correct")
@@ -65,9 +65,11 @@ class FakeDataDaoTest {
         val users = fakeDataDao.selectAllUsers()
         val userList =ArrayList(users)
         val joeUserUid = userList[0].getUserUid()
-        fakeDataDao.deleteUserByUserUid(joeUserUid)
+        if (joeUserUid != null) {
+            fakeDataDao.deleteUserByUserUid(joeUserUid)
+        }
         assertThat(users).isEmpty()
-        assertThat(fakeDataDao.selectUserByUserUid(joeUserUid)).isNotIn(fakeDataDao)
+        assertThat(joeUserUid?.let { fakeDataDao.selectUserByUserUid(it) }).isNotIn(fakeDataDao)
         println("Usuario eliminado")
         println("Cantidad de usuarios es ${fakeDataDao.selectAllUsers().size}")
 

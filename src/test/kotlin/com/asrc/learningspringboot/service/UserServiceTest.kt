@@ -1,6 +1,5 @@
 package com.asrc.learningspringboot.service
 
-import com.asrc.learningspringboot.dao.FakeDataDao
 import com.asrc.learningspringboot.model.User
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

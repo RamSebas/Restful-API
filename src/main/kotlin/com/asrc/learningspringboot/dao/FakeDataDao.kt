@@ -1,4 +1,5 @@
 package com.asrc.learningspringboot.dao
+import com.asrc.learningspringboot.model.Gender
 import com.asrc.learningspringboot.model.User
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -11,7 +12,7 @@ class FakeDataDao: UserDao{
 
     init {
         val joeUserUid = UUID.randomUUID()
-        database[joeUserUid] = User(joeUserUid, "Joe", "Jones", User.Gender.MALE, 22, "joejones@gmail.com")
+        database[joeUserUid] = User(joeUserUid, "Joe", "Jones", Gender.MALE, 22, "joejones@gmail.com")
     }
 
     override fun selectAllUsers(): MutableCollection<User> {
@@ -23,7 +24,7 @@ class FakeDataDao: UserDao{
     }
 
     override fun updateUser(user: User): Int {
-        val userUid = user.getUserUid()
+        val userUid = user.userUid
         if (userUid != null) {
             database[userUid] = user
             return 1

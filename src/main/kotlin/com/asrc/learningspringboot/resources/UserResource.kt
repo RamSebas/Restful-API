@@ -31,7 +31,7 @@ class UserResource @Autowired constructor(private val userService: UserService){
     fun fetchUser (@PathVariable("userUid") userUid: UUID): ResponseEntity<*>{
         var userOptional: User? = userService.getUser(userUid)
         if (userOptional != null) {
-                return ResponseEntity.ok(userOptional.getUserUid())
+                return ResponseEntity.ok(userOptional.userUid)
                     }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorMessage("User $userUid was not found"))
     }
@@ -41,10 +41,10 @@ class UserResource @Autowired constructor(private val userService: UserService){
         val result = userService.insertUser(user)
         return intResponseEntity(result)
     }
-    @RequestMapping(method = [RequestMethod.DELETE], path = ["{userUid}"])
-    fun deleteUsers(@PathVariable("userUid") userUid: UUID): ResponseEntity<Int> {
+    @DeleteMapping("{userUid}")
+    fun deleteUsers(@PathVariable("userUid") userUid: UUID): Int {
         var result = userService.removeUser(userUid)
-        return intResponseEntity(result)
+        return result
     }
 
     @RequestMapping(method = [RequestMethod.PUT], consumes = [MediaType.APPLICATION_JSON_VALUE])

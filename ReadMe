@@ -1,0 +1,19 @@
+# SprinBoot Aplication
+Funcionamiento
+
+Esta Restful API, te permite agregar, editar, eliminar y obtener los usuarios de una base de datos.
+
+Para probar el funcionamiento local.
+
+-
+
+
+# Instrucciones.
+- Clonar repositorio y ejecutar archivo Main.kt preferentemente en Intellij
+- En Postman podemos seleccionar el metodo GET en la url: localhost:8080/api/v1/users
+
+Ejemplo
+
+1231 1
+
+Gracias por leer!!!

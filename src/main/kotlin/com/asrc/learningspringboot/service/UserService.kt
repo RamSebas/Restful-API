@@ -1,9 +1,8 @@
 package com.asrc.learningspringboot.service
 
-import com.asrc.learningspringboot.dao.FakeDataDao
-import com.asrc.learningspringboot.dao.UserDao
+import com.asrc.learningspringboot.dataBase.UserRepository
+import com.asrc.learningspringboot.model.Gender
 import com.asrc.learningspringboot.model.User
-import com.asrc.learningspringboot.model.User.Gender
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -13,23 +12,23 @@ import java.util.stream.Collectors
 
 
 @Service
-class UserService(fakeDataDao: FakeDataDao) {
+class UserService(userRepository: UserRepository) {
 
-    lateinit var userDao: UserDao
+    lateinit var userRepository: UserRepository
     @Autowired
-    fun userService(userDao: UserDao) {
-        this.userDao = userDao
+    fun userService(userRepository: UserRepository) {
+        this.userRepository = userRepository
     }
 
     fun getAllUsers(gender: String?): Collection<User> {
-        val users = userDao.selectAllUsers()
+        val users = userRepository.findAll()
         if (gender == null) {
             return users
         }
             try {
             val theGender: Gender = Gender.valueOf(gender.toUpperCase())
                 return users.stream()
-                    .filter { user: User -> user.getGender() == theGender }
+                    .filter { user: User -> user.gender == theGender }
                     .collect(Collectors.toList())
         } catch (e: Exception) {
             throw IllegalStateException("Invalid gender", e)
@@ -38,13 +37,13 @@ class UserService(fakeDataDao: FakeDataDao) {
 
 
     fun getUser(userUid: UUID): User? {
-        return userDao.selectUserByUserUid(userUid)
+        return userRepository.findById(userUid).orElse(null)
     }
 
     fun updateUser(user: User): Int {
-        val currentUser = user.getUserUid()?.let { getUser(it) }
+        val currentUser = user.userUid?.let { getUser(it) }
         if (currentUser != null) {
-            userDao.updateUser(user)
+            userRepository.save(user)
             return 1
         } else return -1
     }
@@ -52,14 +51,15 @@ class UserService(fakeDataDao: FakeDataDao) {
     fun removeUser(userUid: UUID): Int {
         val currentUser = getUser(userUid)
         if (currentUser != null) {
-            userDao.deleteUserByUserUid(userUid)
+            userRepository.deleteById(userUid)
             return 1
         } else return -1
     }
 
     fun insertUser(user: User): Int {
-        val userUid = user.getUserUid() ?: UUID.randomUUID()
-        return userDao.insertUser(userUid, user.newUser(userUid, user))
+        val userUid = user.userUid?: UUID.randomUUID()
+        userRepository.save(user)
+        return 1
     }
 
 }
