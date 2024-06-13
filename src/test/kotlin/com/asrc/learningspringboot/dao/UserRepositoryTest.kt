@@ -21,7 +21,7 @@ class UserRepositoryTest() {
     @Mock
     lateinit var userRepository: UserRepository
     @Test
-    fun `when findById then return User`() {
+    fun finById() {
         val user = User(UUID.randomUUID(), "Test", "User", gender = Gender.MALE, 22, "ar@gmail.com")
 
         Mockito.`when`(user.userUid?.let { userRepository.findById(it) }).thenReturn(Optional.of(user))
@@ -32,6 +32,7 @@ class UserRepositoryTest() {
                 Assertions.assertEquals(user.firstName, userFromDb.firstName)
                 Assertions.assertEquals(user.lastName, userFromDb.lastName)
                 Assertions.assertEquals(user.email, userFromDb.email)
+                println("Prueba exitosa")
             }
         }
     }

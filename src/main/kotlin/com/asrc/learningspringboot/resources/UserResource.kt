@@ -23,8 +23,8 @@ class UserResource @Autowired constructor(private val userService: UserService){
 //    }
 
     @RequestMapping(method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun fetchUsers(@RequestParam("gender") gender: String?): Collection<User> {
-        return userService.getAllUsers(gender)
+    fun fetchUsers(@RequestParam("gender") gender: String?, @RequestParam("firstName", required = false) firstName: String?): Collection<User> {
+        return userService.getAllUsers(gender, firstName)
     }
 
     @RequestMapping(method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE], path = ["{userUid}"])
@@ -37,20 +37,20 @@ class UserResource @Autowired constructor(private val userService: UserService){
     }
 
     @RequestMapping(method = [RequestMethod.POST], consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun insertNewUser(@RequestBody user: User): ResponseEntity<Int>{
+    fun insertNewUser(@RequestBody user: User): ResponseEntity<String> {
         val result = userService.insertUser(user)
-        return intResponseEntity(result)
+        return result
     }
     @DeleteMapping("{userUid}")
-    fun deleteUsers(@PathVariable("userUid") userUid: UUID): Int {
-        var result = userService.removeUser(userUid)
+    fun deleteUsers(@PathVariable("userUid") userUid: UUID): Any {
+        val result = userService.removeUser(userUid)
         return result
     }
 
     @RequestMapping(method = [RequestMethod.PUT], consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun updateUser(@RequestBody user: User): ResponseEntity<Int> {
-        var result = userService.updateUser(user)
-        return intResponseEntity(result)
+    fun updateUser(@RequestBody user: User): Any {
+        val result = userService.updateUser(user)
+        return result
     }
 
     class ErrorMessage(private var errorMessage: String) {
@@ -66,7 +66,7 @@ class UserResource @Autowired constructor(private val userService: UserService){
     }
 }
 
-private fun intResponseEntity(result: Int): ResponseEntity<Int> {
+private fun intResponseEntity(result: Any): ResponseEntity<Int> {
     if (result == 1) {
         return ResponseEntity.ok().build()
     }
