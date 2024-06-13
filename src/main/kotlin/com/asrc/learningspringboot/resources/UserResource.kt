@@ -14,13 +14,6 @@ import java.util.*
 @RequestMapping("api/v1/users")
 
 class UserResource @Autowired constructor(private val userService: UserService){
-//    private lateinit var userService: UserService
-
-// A traves de metodo, cuando la dependencia es opcional.
-//    @Autowired
-//    fun userResource(userService: UserService) {
-//        this.userService = userService
-//    }
 
     @RequestMapping(method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun fetchUsers(@RequestParam("gender") gender: String?, @RequestParam("firstName", required = false) firstName: String?): Collection<User> {
