@@ -1,19 +1,86 @@
-# SprinBoot Aplication
-Funcionamiento
+# API de Usuario
 
-Esta Restful API, te permite agregar, editar, eliminar y obtener los usuarios de una base de datos.
+Esta API permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en un recurso de usuario.
 
-Para probar el funcionamiento local.
+## Endpoints
 
--
+- `GET /users`: Obtiene una lista de todos los usuarios.
+- `GET /users/{userUid}`: Obtiene los detalles de un usuario específico.
+- `POST /users`: Crea un nuevo usuario.
+- `PUT /users/{userUid}`: Actualiza los detalles de un usuario existente.
+- `DELETE /users/{userUid}`: Elimina un usuario existente.
 
+## Detalles de los Endpoints
 
-# Instrucciones.
-- Clonar repositorio y ejecutar archivo Main.kt preferentemente en Intellij
-- En Postman podemos seleccionar el metodo GET en la url: localhost:8080/api/v1/users
+### GET /users
 
-Ejemplo
+Devuelve una lista de todos los usuarios.
 
-1231 1
+### GET /users/{userUid}
 
-Gracias por leer!!!
+Devuelve los detalles de un usuario específico.
+
+Parámetros de ruta:
+- `userUid`: El UUID del usuario.
+
+### POST /users
+
+Crea un nuevo usuario.
+
+Cuerpo de la solicitud:
+```json
+{
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "gender": "MALE",
+    "age": 22,
+    "email": "test.user@example.com"
+}
+```
+
+### PUT /users/{userUid}
+
+Actualiza los detalles de un usuario existente.
+
+Parámetros de ruta:
+- `userUid`: El UUID del usuario.
+
+Cuerpo de la solicitud:
+```json
+{
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "gender": "MALE",
+    "age": 22,
+    "email": "test.user@example.com"
+}
+```
+
+### DELETE /users/{userUid}
+
+Elimina un usuario existente.
+
+Parámetros de ruta:
+- `userUid`: El UUID del usuario.
+
+## Ejecución de pruebas
+
+Para ejecutar las pruebas unitarias, ejecute el siguiente comando en su terminal:
+
+```bash
+./mvnw test
+```
+
+## Construcción y ejecución
+
+Para construir y ejecutar la aplicación, ejecute el siguiente comando en su terminal:
+
+```bash
+./mvnw spring-boot:run
+```
+
+Esto iniciará la aplicación en `localhost:8080`.
+
+## Contacto
+
+Si tiene alguna pregunta o problema, no dude en abrir un problema en GitHub.
