@@ -1,7 +1,7 @@
 ```markdown
 # API de Usuario
 
-Esta API permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en un recurso de usuario.
+Esta API permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en una base de datos de usuarios.
 
 ## Tecnologías
 - Spring Boot
