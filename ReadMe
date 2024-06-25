@@ -1,8 +1,14 @@
+```markdown
 # API de Usuario
 
 Esta API permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en un recurso de usuario.
 
+## Tecnologías
+- Spring Boot
+- Kotlin
+
 ## Endpoints
+Base URL: `https://restful-api-production-d95d.up.railway.app/api/v1/users`
 
 - `GET /users`: Obtiene una lista de todos los usuarios.
 - `GET /users/{userUid}`: Obtiene los detalles de un usuario específico.
@@ -20,14 +26,14 @@ Devuelve una lista de todos los usuarios.
 
 Devuelve los detalles de un usuario específico.
 
-Parámetros de ruta:
+**Parámetros de ruta:**
 - `userUid`: El UUID del usuario.
 
 ### POST /users
 
 Crea un nuevo usuario.
 
-Cuerpo de la solicitud:
+**Cuerpo de la solicitud:**
 ```json
 {
     "firstName": "Nombre",
@@ -42,10 +48,10 @@ Cuerpo de la solicitud:
 
 Actualiza los detalles de un usuario existente.
 
-Parámetros de ruta:
+**Parámetros de ruta:**
 - `userUid`: El UUID del usuario.
 
-Cuerpo de la solicitud:
+**Cuerpo de la solicitud:**
 ```json
 {
     "firstName": "Nombre",
@@ -60,7 +66,7 @@ Cuerpo de la solicitud:
 
 Elimina un usuario existente.
 
-Parámetros de ruta:
+**Parámetros de ruta:**
 - `userUid`: El UUID del usuario.
 
 ## Ejecución de pruebas
@@ -83,4 +89,5 @@ Esto iniciará la aplicación en `localhost:8080`.
 
 ## Contacto
 
-Si tiene alguna pregunta o problema, no dude en abrir un problema en GitHub.
+Si tiene alguna pregunta o problema, no dude en abrir un issue en GitHub.
+```
