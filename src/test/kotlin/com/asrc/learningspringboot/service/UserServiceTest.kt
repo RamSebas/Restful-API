@@ -3,14 +3,17 @@ package com.asrc.learningspringboot.service
 import com.asrc.learningspringboot.dataBase.UserRepository
 import com.asrc.learningspringboot.model.Gender
 import com.asrc.learningspringboot.model.User
+import com.asrc.learningspringboot.resources.UserResource
+import com.asrc.learningspringboot.resources.UserResource.ErrorMessage
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -67,14 +70,69 @@ class UserServiceTest {
     }
 
     @Test
-    fun updateUser() {
+    fun `updateUser updates an existing user and returns a success message`() {
+        val userUid = UUID.randomUUID()
+        val user = User(userUid, "Test", "User", gender = Gender.MALE, 22, "test.user@example.com")
+        given(userRepository.findById(userUid)).willReturn(Optional.of(user))
+
+        val updatedUser = user.copy(firstName = "Updated")
+        val response = userService.updateUser(updatedUser)
+
+        assertThat(response).isInstanceOf(ResponseEntity::class.java)
+        val responseEntity = response as ResponseEntity<*>
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(responseEntity.body).isEqualTo("User $userUid was updated")
     }
 
     @Test
-    fun removeUser() {
+    fun `updateUser returns an error message when the user does not exist`() {
+        val userUid = UUID.randomUUID()
+        val user = User(userUid, "Test", "User", gender = Gender.MALE, 22, "test.user@example.com")
+        given(userRepository.findById(userUid)).willReturn(Optional.empty())
+
+        val response = userService.updateUser(user)
+
+        assertThat(response).isInstanceOf(ResponseEntity::class.java)
+        val responseEntity = response as ResponseEntity<*>
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+        assertThat(responseEntity.body).isInstanceOf(ErrorMessage::class.java)
     }
+
+    @Test
+    fun `removeUser removes an existing user and returns a success message`() {
+        val userUid = UUID.randomUUID()
+        val user = User(userUid, "Test", "User", gender = Gender.MALE, 22, "test.user@example.com")
+        given(userRepository.findById(userUid)).willReturn(Optional.of(user))
+
+        val response = userService.removeUser(userUid)
+
+        assertThat(response).isInstanceOf(ResponseEntity::class.java)
+        val responseEntity = response as ResponseEntity<*>
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(responseEntity.body).isEqualTo("User $userUid was removed")
+    }
+
+    @Test
+    fun `removeUser returns an error message when the user does not exist`() {
+        val userUid = UUID.randomUUID()
+        given(userRepository.findById(userUid)).willReturn(Optional.empty())
+
+        val response = userService.removeUser(userUid)
+
+        assertThat(response).isInstanceOf(ResponseEntity::class.java)
+        val responseEntity = response as ResponseEntity<*>
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+        assertThat(responseEntity.body).isInstanceOf(ErrorMessage::class.java)
+    }
+
 
     @Test
     fun insertUser() {
+        val userUid = UUID.randomUUID()
+        val user = User(userUid, "Test", "User", gender = Gender.MALE, 22, "test.user@example.com")
+        given(userRepository.save(user)).willReturn(user)
+
+        assertThat(userService.insertUser(user)).isEqualTo(ResponseEntity.status(HttpStatus.CREATED).body("User $userUid was inserted"))
+        println("Prueba exitosa")
     }
 }

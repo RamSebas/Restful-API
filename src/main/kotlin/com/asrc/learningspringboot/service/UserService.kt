@@ -54,7 +54,7 @@ class UserService(@Autowired private val userRepository: UserRepository) {
         if (currentUser != null) {
             userRepository.save(user)
             return ResponseEntity.status(HttpStatus.OK).body("User ${currentUser.userUid} was updated")
-        } else return -1
+        } else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorMessage("User was not found"))
     }
 
     fun removeUser(userUid: UUID): Any {
