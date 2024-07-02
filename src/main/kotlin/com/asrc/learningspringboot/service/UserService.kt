@@ -68,7 +68,7 @@ class UserService(@Autowired private val userRepository: UserRepository) {
     fun insertUser(user: User): ResponseEntity<String> {
         val userUid = user.userUid?: UUID.randomUUID()
         if (user.firstName == "" || user.lastName == "" || user.age <= 0 || user.email == "") {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please provide a valid user")
         }
         userRepository.save(user)
         return ResponseEntity.status(HttpStatus.CREATED).body("User $userUid was inserted")
