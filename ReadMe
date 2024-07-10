@@ -8,7 +8,7 @@ Esta API permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) e
 - Kotlin
 
 ## Endpoints
-Base URL: `https://restful-api-production-d95d.up.railway.app/api/v1/users`
+Base URL para usar en POSTMAN: `https://restful-api-production-d95d.up.railway.app/api/v1/users`
 
 - `GET /users`: Obtiene una lista de todos los usuarios.
 - `GET /users/{userUid}`: Obtiene los detalles de un usuario específico.
